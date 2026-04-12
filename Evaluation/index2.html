@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Voyage — Travel the World</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green:  #1e3a2f;
+    --green2: #2d5a45;
+    --gold:   #c9973a;
+    --cream:  #f7f3ec;
+    --white:  #ffffff;
+    --gray:   #8a8a8a;
+    --light:  #ede9e1;
+    --text:   #1a1a1a;
+  }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 5%;
+    background: var(--green);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-family: 'Lora', serif;
+    font-size: 1.5rem;
+    color: var(--cream);
+    letter-spacing: 0.04em;
+  }
+  .logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: rgba(247,243,236,0.7);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--green);
+    padding: 5rem 5% 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+  .hero-text h1 {
+    font-family: 'Lora', serif;
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    color: var(--cream);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .hero-text h1 em { color: var(--gold); font-style: italic; }
+  .hero-text p {
+    color: rgba(247,243,236,0.65);
+    font-size: 0.95rem;
+    line-height: 1.75;
+    max-width: 400px;
+    margin-bottom: 2rem;
+  }
+  .hero-actions { display: flex; gap: 1rem; }
+  .btn {
+    padding: 0.7rem 1.6rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-gold { background: var(--gold); color: #fff; }
+  .btn-gold:hover { background: #b8852d; }
+  .btn-outline { background: transparent; color: var(--cream); border: 1px solid rgba(247,243,236,0.3); }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* search card */
+  .hero-search {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 2px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  }
+  .hero-search h3 {
+    font-family: 'Lora', serif;
+    font-size: 1.1rem;
+    margin-bottom: 1.2rem;
+    color: var(--green);
+  }
+  .field-group { display: flex; flex-direction: column; gap: 0.3rem; margin-bottom: 1rem; }
+  .field-group label { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray); }
+  .field-group input, .field-group select {
+    padding: 0.65rem 0.9rem;
+    border: 1px solid #ddd;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: var(--cream);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .field-group input:focus, .field-group select:focus { border-color: var(--green2); }
+  .search-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+
+  /* ── STATS ── */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    background: var(--green2);
+  }
+  .stat {
+    padding: 1.8rem;
+    text-align: center;
+    border-right: 1px solid rgba(255,255,255,0.1);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Lora', serif;
+    font-size: 2rem;
+    font-style: italic;
+    color: var(--gold);
+    display: block;
+  }
+  .stat-label { font-size: 0.75rem; color: rgba(247,243,236,0.6); letter-spacing: 0.1em; margin-top: 0.2rem; }
+
+  /* ── SECTIONS ── */
+  .section { padding: 4.5rem 5%; }
+  .section-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem; }
+  .section-head h2 { font-family: 'Lora', serif; font-size: clamp(1.6rem, 3vw, 2.2rem); }
+  .section-head h2 em { font-style: italic; color: var(--gold); }
+  .section-kicker { font-size: 0.7rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.3rem; }
+  .see-all { font-size: 0.78rem; color: var(--green2); text-decoration: none; border-bottom: 1px solid var(--green2); padding-bottom: 1px; transition: color 0.2s; }
+  .see-all:hover { color: var(--gold); border-color: var(--gold); }
+
+  /* ── DESTINATION CARDS ── */
+  .dest-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .dest-card {
+    background: var(--white);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.25s, box-shadow 0.25s;
+    border: 1px solid var(--light);
+  }
+  .dest-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(0,0,0,0.12); }
+  .dest-img {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+  .dest-tag {
+    position: absolute;
+    top: 0.8rem; left: 0.8rem;
+    background: var(--gold);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    padding: 0.2rem 0.6rem;
+  }
+  .dest-body { padding: 1.2rem; }
+  .dest-region { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.25rem; }
+  .dest-name { font-family: 'Lora', serif; font-size: 1.2rem; margin-bottom: 0.4rem; }
+  .dest-desc { font-size: 0.82rem; color: var(--gray); line-height: 1.6; margin-bottom: 1rem; }
+  .dest-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--light); padding-top: 0.8rem; }
+  .dest-price { font-family: 'Lora', serif; font-size: 1.1rem; font-style: italic; color: var(--green2); }
+  .dest-days { font-size: 0.72rem; color: var(--gray); }
+  .dest-rating { font-size: 0.78rem; color: var(--gold); }
+
+  /* ── FILTER TABS ── */
+  .filter-row { display: flex; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap; }
+  .filter-btn {
+    padding: 0.4rem 1rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.78rem;
+    background: var(--white);
+    border: 1px solid var(--light);
+    color: var(--gray);
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.04em;
+  }
+  .filter-btn.active, .filter-btn:hover { background: var(--green); color: var(--cream); border-color: var(--green); }
+
+  /* ── FEATURES ── */
+  .features-bg { background: var(--light); }
+  .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+  .feature {
+    background: var(--white);
+    padding: 1.8rem 1.5rem;
+    border-top: 3px solid var(--gold);
+    transition: transform 0.2s;
+  }
+  .feature:hover { transform: translateY(-3px); }
+  .feature-icon { font-size: 1.8rem; margin-bottom: 0.8rem; }
+  .feature-title { font-family: 'Lora', serif; font-size: 1rem; margin-bottom: 0.4rem; }
+  .feature-desc { font-size: 0.8rem; color: var(--gray); line-height: 1.6; }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .testi {
+    background: var(--white);
+    padding: 1.8rem;
+    border: 1px solid var(--light);
+    position: relative;
+  }
+  .testi::before {
+    content: '"';
+    font-family: 'Lora', serif;
+    font-size: 4rem;
+    color: var(--gold);
+    opacity: 0.2;
+    position: absolute;
+    top: 0.5rem; left: 1rem;
+    line-height: 1;
+  }
+  .testi-text { font-size: 0.85rem; line-height: 1.75; color: var(--gray); margin-bottom: 1.2rem; font-style: italic; }
+  .testi-author { display: flex; align-items: center; gap: 0.8rem; }
+  .testi-avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--green2); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+  .testi-name { font-size: 0.82rem; font-weight: 500; }
+  .testi-trip { font-size: 0.73rem; color: var(--gray); }
+  .testi-stars { color: var(--gold); font-size: 0.72rem; margin-top: 0.15rem; }
+
+  /* ── NEWSLETTER ── */
+  .newsletter { background: var(--green); padding: 4rem 5%; text-align: center; }
+  .newsletter h2 { font-family: 'Lora', serif; font-size: clamp(1.6rem, 3vw, 2.2rem); color: var(--cream); margin-bottom: 0.5rem; }
+  .newsletter h2 em { font-style: italic; color: var(--gold); }
+  .newsletter p { color: rgba(247,243,236,0.6); font-size: 0.88rem; margin-bottom: 2rem; }
+  .nl-form { display: flex; max-width: 440px; margin: 0 auto; gap: 1px; }
+  .nl-input {
+    flex: 1;
+    padding: 0.85rem 1.1rem;
+    border: none;
+    background: rgba(255,255,255,0.1);
+    color: var(--cream);
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+  }
+  .nl-input::placeholder { color: rgba(247,243,236,0.4); }
+
+  /* ── WISHLIST ── */
+  .wish-section { background: var(--light); }
+  .wish-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
+  .wish-item {
+    background: var(--white);
+    border: 1px solid var(--light);
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .wish-name { font-size: 0.88rem; font-weight: 500; }
+  .wish-price { font-size: 0.78rem; color: var(--gold); margin-top: 0.2rem; }
+  .wish-del { background: none; border: none; color: var(--gray); cursor: pointer; font-size: 1rem; transition: color 0.2s; }
+  .wish-del:hover { color: #c0392b; }
+  .wish-empty { color: var(--gray); font-size: 0.85rem; padding: 0.5rem 0; }
+  .wish-total { font-size: 0.82rem; color: var(--gray); margin-top: 1rem; }
+
+  /* ── MODAL ── */
+  .overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.65);
+    z-index: 500;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .overlay.open { opacity: 1; pointer-events: all; }
+  .modal {
+    background: var(--white);
+    max-width: 480px; width: 90%;
+    max-height: 85vh; overflow-y: auto;
+    position: relative;
+    transform: translateY(18px);
+    transition: transform 0.3s;
+  }
+  .overlay.open .modal { transform: translateY(0); }
+  .modal-img { height: 200px; background-size: cover; background-position: center; }
+  .modal-body { padding: 1.8rem; }
+  .modal-region { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.3rem; }
+  .modal-title { font-family: 'Lora', serif; font-size: 1.7rem; margin-bottom: 0.8rem; }
+  .modal-desc { font-size: 0.85rem; color: var(--gray); line-height: 1.75; margin-bottom: 1.2rem; }
+  .modal-meta { display: flex; gap: 1.5rem; background: var(--cream); padding: 0.9rem 1rem; margin-bottom: 1.5rem; }
+  .meta-item { display: flex; flex-direction: column; gap: 0.15rem; }
+  .meta-label { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray); }
+  .meta-val { font-size: 0.95rem; font-weight: 500; color: var(--green2); }
+  .modal-close { position: absolute; top: 0.9rem; right: 0.9rem; background: rgba(0,0,0,0.4); border: none; color: #fff; width: 30px; height: 30px; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+  .modal-close:hover { background: rgba(0,0,0,0.7); }
+  .modal-actions { display: flex; gap: 0.8rem; }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed; bottom: 2rem; right: 2rem;
+    background: var(--green); color: var(--cream);
+    padding: 0.85rem 1.4rem;
+    font-size: 0.82rem;
+    z-index: 999;
+    opacity: 0; transform: translateY(8px);
+    transition: all 0.3s;
+    border-left: 3px solid var(--gold);
+    max-width: 280px;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  /* ── FOOTER ── */
+  footer { background: var(--green); color: var(--cream); padding: 3rem 5% 1.5rem; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2.5rem; margin-bottom: 2rem; }
+  .footer-logo { font-family: 'Lora', serif; font-size: 1.4rem; margin-bottom: 0.6rem; }
+  .footer-logo span { color: var(--gold); }
+  .footer-tagline { font-size: 0.8rem; color: rgba(247,243,236,0.5); line-height: 1.7; max-width: 240px; }
+  .footer-col h4 { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.9rem; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .footer-col a { color: rgba(247,243,236,0.5); text-decoration: none; font-size: 0.82rem; transition: color 0.2s; }
+  .footer-col a:hover { color: var(--gold); }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.2rem; display: flex; justify-content: space-between; font-size: 0.72rem; color: rgba(247,243,236,0.3); flex-wrap: wrap; gap: 0.5rem; }
+
+  /* ── RESPONSIVE ── */
+  @media(max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: repeat(2,1fr); }
+    .dest-grid { grid-template-columns: 1fr 1fr; }
+    .features-grid { grid-template-columns: 1fr 1fr; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media(max-width: 600px) {
+    .nav-links { display: none; }
+    .dest-grid { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: 1fr; }
+    .hero { padding: 3rem 5% 3rem; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Voya<span>ge</span></div>
+  <ul class="nav-links">
+    <li><a href="#destinations">Destinations</a></li>
+    <li><a href="#experiences">Why Us</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#wishlist">Wishlist</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-text">
+    <p style="font-size:0.72rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem">✦ Curated Travel Experiences</p>
+    <h1>Explore the world,<br>one <em>story</em> at a time</h1>
+    <p>We handcraft journeys to the earth's most beautiful places. Every itinerary is personal, every trip unforgettable.</p>
+    <div class="hero-actions">
+      <button class="btn btn-gold" onclick="document.getElementById('destinations').scrollIntoView({behavior:'smooth'})">Browse Destinations</button>
+      <button class="btn btn-outline" onclick="document.getElementById('wishlist').scrollIntoView({behavior:'smooth'})">My Wishlist</button>
+    </div>
+  </div>
+  <div class="hero-search">
+    <h3>Find Your Next Trip</h3>
+    <div class="search-row">
+      <div class="field-group">
+        <label>Destination</label>
+        <input type="text" id="searchDest" placeholder="e.g. Bali, Japan…"/>
+      </div>
+      <div class="field-group">
+        <label>Region</label>
+        <select id="searchRegion">
+          <option value="">All Regions</option>
+          <option>Europe</option>
+          <option>Asia</option>
+          <option>Americas</option>
+          <option>Africa</option>
+          <option>Asia Pacific</option>
+        </select>
+      </div>
+    </div>
+    <div class="search-row">
+      <div class="field-group">
+        <label>Max Budget ($)</label>
+        <input type="number" id="searchBudget" placeholder="e.g. 2000"/>
+      </div>
+      <div class="field-group">
+        <label>Duration</label>
+        <select id="searchDuration">
+          <option value="">Any length</option>
+          <option value="7">Up to 7 days</option>
+          <option value="10">Up to 10 days</option>
+          <option value="14">Up to 14 days</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-gold" style="width:100%;justify-content:center" onclick="doSearch()">Search Trips</button>
+    <p id="searchMsg" style="font-size:0.78rem;color:var(--gray);margin-top:0.7rem;min-height:1em"></p>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats" id="statsBar"></div>
+
+<!-- DESTINATIONS -->
+<section class="section" id="destinations">
+  <div class="section-head">
+    <div>
+      <p class="section-kicker">Hand-picked</p>
+      <h2>Top <em>Destinations</em></h2>
+    </div>
+    <a href="#" class="see-all">View all →</a>
+  </div>
+  <div class="filter-row" id="filterRow"></div>
+  <div class="dest-grid" id="destGrid"></div>
+</section>
+
+<!-- FEATURES -->
+<section class="section features-bg" id="experiences">
+  <div class="section-head">
+    <div>
+      <p class="section-kicker">Why choose us</p>
+      <h2>Travel with <em>confidence</em></h2>
+    </div>
+  </div>
+  <div class="features-grid" id="featGrid"></div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section" id="reviews">
+  <div class="section-head">
+    <div>
+      <p class="section-kicker">Real travellers</p>
+      <h2>What our guests <em>say</em></h2>
+    </div>
+  </div>
+  <div class="testimonials-grid" id="testiGrid"></div>
+</section>
+
+<!-- WISHLIST -->
+<section class="section wish-section" id="wishlist">
+  <div class="section-head">
+    <div>
+      <p class="section-kicker">Saved trips</p>
+      <h2>My <em>Wishlist</em></h2>
+    </div>
+    <div style="display:flex;gap:0.6rem">
+      <button class="btn btn-outline" style="color:var(--text);border-color:#ccc" onclick="sortWish()">Sort by Price ↕</button>
+      <button class="btn btn-outline" style="color:var(--text);border-color:#ccc" onclick="clearWish()">Clear All</button>
+    </div>
+  </div>
+  <div class="wish-list" id="wishList"></div>
+  <p class="wish-total" id="wishTotal"></p>
+</section>
+
+<!-- NEWSLETTER -->
+<div class="newsletter">
+  <h2>Stay <em>inspired</em></h2>
+  <p>Get travel guides, deals, and destination stories in your inbox.</p>
+  <form class="nl-form" onsubmit="submitNewsletter(event)">
+    <input class="nl-input" type="email" placeholder="your@email.com" required/>
+    <button class="btn btn-gold" type="submit">Subscribe</button>
+  </form>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">Voya<span>ge</span></div>
+      <p class="footer-tagline">We turn destinations into experiences and experiences into lifelong memories.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Destinations</h4>
+      <ul><li><a href="#">Europe</a></li><li><a href="#">Asia</a></li><li><a href="#">Americas</a></li><li><a href="#">Africa</a></li></ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul><li><a href="#">About</a></li><li><a href="#">Blog</a></li><li><a href="#">Careers</a></li></ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul><li><a href="#">FAQ</a></li><li><a href="#">Insurance</a></li><li><a href="#">Contact</a></li></ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Voyage Travel Co.</span>
+    <span>Privacy · Terms · Cookies</span>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay" onclick="handleOverlay(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-img" id="mImg"></div>
+    <div class="modal-body">
+      <p class="modal-region" id="mRegion"></p>
+      <h2 class="modal-title" id="mTitle"></h2>
+      <p class="modal-desc" id="mDesc"></p>
+      <div class="modal-meta" id="mMeta"></div>
+      <div class="modal-actions">
+        <button class="btn btn-gold" style="flex:1" onclick="bookNow()">Book This Trip</button>
+        <button class="btn btn-outline" style="flex:1;color:var(--text);border-color:#ccc" onclick="addToWish(activeDest)">+ Wishlist</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────
+var destinations = [
+  { id:1, name:"Santorini",    country:"Greece",      region:"Europe",      price:1890, days:8,  rating:4.9, tag:"Popular",  season:"Apr–Oct", desc:"Whitewashed villages clinging to volcanic cliffs above the Aegean. World-famous sunsets, blue-domed churches, and exceptional local wine.", img:"https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=700&q=80" },
+  { id:2, name:"Kyoto",        country:"Japan",       region:"Asia",        price:2340, days:10, rating:4.8, tag:"Cultural", season:"Mar–May", desc:"Ancient temples, bamboo groves, and cherry blossoms in full bloom. Japan's cultural heart where every lantern-lit street tells a story.", img:"https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=700&q=80" },
+  { id:3, name:"Machu Picchu", country:"Peru",        region:"Americas",    price:2760, days:12, rating:4.9, tag:"Adventure",season:"May–Sep", desc:"The legendary Inca citadel perched high in the Andes. Trek the historic trail and arrive at sunrise to a breathtaking panorama.", img:"https://images.unsplash.com/photo-1587595431973-160d0d94add1?w=700&q=80" },
+  { id:4, name:"Bali",         country:"Indonesia",   region:"Asia",        price:1490, days:10, rating:4.7, tag:"Relaxing", season:"Apr–Oct", desc:"Rice terraces, sacred temples, surf breaks, and lush jungle spas. The Island of the Gods lives up to every rumour.", img:"https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=700&q=80" },
+  { id:5, name:"Amalfi Coast", country:"Italy",       region:"Europe",      price:2100, days:9,  rating:4.8, tag:"Scenic",   season:"May–Sep", desc:"Cliff-hugging villages, lemon groves, and a shimmering turquoise sea. The Italian Riviera at its most intoxicating.", img:"https://images.unsplash.com/photo-1533587851505-d119e13fa0d7?w=700&q=80" },
+  { id:6, name:"Serengeti",    country:"Tanzania",    region:"Africa",      price:3200, days:14, rating:5.0, tag:"Wildlife", season:"Jun–Oct", desc:"Witness the Great Migration — millions of wildebeest crossing the Mara River in one of nature's greatest spectacles.", img:"https://images.unsplash.com/photo-1516426122078-c23e76319801?w=700&q=80" },
+  { id:7, name:"Reykjavik",    country:"Iceland",     region:"Europe",      price:2500, days:7,  rating:4.6, tag:"Arctic",   season:"Sep–Mar", desc:"Geothermal pools, thundering waterfalls, and the magical Northern Lights dancing across a winter sky.", img:"https://images.unsplash.com/photo-1474690870753-1b92efa1f2d8?w=700&q=80" },
+  { id:8, name:"Marrakech",    country:"Morocco",     region:"Africa",      price:1350, days:8,  rating:4.7, tag:"Exotic",   season:"Oct–Apr", desc:"A labyrinth of souks, ornate riads, and the legendary Djemaa el-Fna square alive with storytellers and street food.", img:"https://images.unsplash.com/photo-1539020140153-e479b8c22e70?w=700&q=80" },
+  { id:9, name:"New Zealand",  country:"New Zealand", region:"Asia Pacific",price:2950, days:14, rating:4.9, tag:"Nature",   season:"Nov–Apr", desc:"Fjords, glowworm caves, Maori culture, and landscapes so dramatic they were chosen as the real Middle-Earth.", img:"https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=700&q=80" },
+];
+
+var features = [
+  { icon:"✈️", title:"Flights Included",  desc:"Round-trip flights from major hubs included in every package." },
+  { icon:"🏨", title:"Curated Hotels",    desc:"Boutique stays and luxury resorts, personally vetted by our team." },
+  { icon:"🗺️", title:"Expert Guides",    desc:"Local guides who open doors no tourist map ever could." },
+  { icon:"🔒", title:"Safe & Insured",    desc:"24/7 support and comprehensive travel insurance on every trip." },
+];
+
+var testimonials = [
+  { text:"The Kyoto trip was unlike anything we expected. The private ryokan, the tea ceremony, the cherry blossom walk at dusk — pure magic.", name:"Priya M.", trip:"Kyoto, Japan", avatar:"🌸", stars:"★★★★★" },
+  { text:"Voyage found a hidden seafood restaurant in Amalfi that no guidebook mentions. That kind of local knowledge is priceless.", name:"Thomas L.", trip:"Amalfi Coast, Italy", avatar:"⛵", stars:"★★★★★" },
+  { text:"The Machu Picchu sunrise from the Sun Gate is something I'll carry for the rest of my life. Flawless organisation from start to finish.", name:"Sofia K.", trip:"Peru — Inca Trail", avatar:"🏔️", stars:"★★★★★" },
+];
+
+var statsData = [
+  { num:"48+",  label:"Destinations" },
+  { num:"12K+", label:"Happy Travellers" },
+  { num:"4.9",  label:"Average Rating" },
+  { num:"7yrs", label:"Experience" },
+];
+
+// ── STATE ─────────────────────────────────────────────────
+var wishlist    = [];
+var activeDest  = null;
+var activeTag   = "All";
+
+// ── RENDER STATS ──────────────────────────────────────────
+var statsBar = document.getElementById("statsBar");
+for (var i = 0; i < statsData.length; i++) {
+  var s = statsData[i];
+  statsBar.innerHTML += '<div class="stat"><span class="stat-num">' + s.num + '</span><p class="stat-label">' + s.label + '</p></div>';
+}
+
+// ── RENDER FILTER TABS ────────────────────────────────────
+var tags = ["All", "Popular", "Cultural", "Adventure", "Relaxing", "Wildlife", "Nature", "Scenic", "Arctic", "Exotic"];
+var filterRow = document.getElementById("filterRow");
+for (var t = 0; t < tags.length; t++) {
+  var tag = tags[t];
+  var btn = document.createElement("button");
+  btn.className = "filter-btn" + (tag === "All" ? " active" : "");
+  btn.textContent = tag;
+  btn.setAttribute("data-tag", tag);
+  btn.onclick = function() {
+    activeTag = this.getAttribute("data-tag");
+    var all = document.querySelectorAll(".filter-btn");
+    for (var k = 0; k < all.length; k++) all[k].classList.remove("active");
+    this.classList.add("active");
+    renderDests(getFiltered());
+  };
+  filterRow.appendChild(btn);
+}
+
+// ── FILTERING LOGIC ───────────────────────────────────────
+function getFiltered() {
+  var result = [];
+  for (var i = 0; i < destinations.length; i++) {
+    var d = destinations[i];
+    if (activeTag === "All" || d.tag === activeTag) {
+      result.push(d);
+    }
+  }
+  return result;
+}
+
+// ── RENDER DESTINATIONS ───────────────────────────────────
+function renderDests(list) {
+  var grid = document.getElementById("destGrid");
+  grid.innerHTML = "";
+  if (list.length === 0) {
+    grid.innerHTML = '<p style="color:var(--gray);grid-column:1/-1;padding:2rem 0">No destinations found. Try a different filter.</p>';
+    return;
+  }
+  for (var i = 0; i < list.length; i++) {
+    var d = list[i];
+    var card = document.createElement("div");
+    card.className = "dest-card";
+    card.innerHTML =
+      '<div class="dest-img" style="background-image:url(\'' + d.img + '\')">' +
+        '<span class="dest-tag">' + d.tag + '</span>' +
+      '</div>' +
+      '<div class="dest-body">' +
+        '<p class="dest-region">' + d.region + '</p>' +
+        '<h3 class="dest-name">' + d.name + ', ' + d.country + '</h3>' +
+        '<p class="dest-desc">' + d.desc.substring(0, 85) + '…</p>' +
+        '<div class="dest-footer">' +
+          '<div><p class="dest-price">$' + d.price.toLocaleString() + '</p><p class="dest-days">' + d.days + ' days</p></div>' +
+          '<p class="dest-rating">★ ' + d.rating + '</p>' +
+        '</div>' +
+      '</div>';
+    card.onclick = (function(dest) {
+      return function() { openModal(dest); };
+    })(d);
+    grid.appendChild(card);
+  }
+}
+renderDests(destinations);
+
+// ── RENDER FEATURES ───────────────────────────────────────
+var featGrid = document.getElementById("featGrid");
+for (var f = 0; f < features.length; f++) {
+  var ft = features[f];
+  featGrid.innerHTML +=
+    '<div class="feature">' +
+      '<div class="feature-icon">' + ft.icon + '</div>' +
+      '<h3 class="feature-title">' + ft.title + '</h3>' +
+      '<p class="feature-desc">' + ft.desc + '</p>' +
+    '</div>';
+}
+
+// ── RENDER TESTIMONIALS ───────────────────────────────────
+var testiGrid = document.getElementById("testiGrid");
+for (var r = 0; r < testimonials.length; r++) {
+  var rv = testimonials[r];
+  testiGrid.innerHTML +=
+    '<div class="testi">' +
+      '<p class="testi-text">' + rv.text + '</p>' +
+      '<div class="testi-author">' +
+        '<div class="testi-avatar">' + rv.avatar + '</div>' +
+        '<div>' +
+          '<p class="testi-name">' + rv.name + '</p>' +
+          '<p class="testi-trip">' + rv.trip + '</p>' +
+          '<p class="testi-stars">' + rv.stars + '</p>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+}
+
+// ── SEARCH ────────────────────────────────────────────────
+function doSearch() {
+  var query   = document.getElementById("searchDest").value.toLowerCase();
+  var region  = document.getElementById("searchRegion").value;
+  var budget  = parseInt(document.getElementById("searchBudget").value) || 99999;
+  var maxDays = parseInt(document.getElementById("searchDuration").value) || 99;
+  var results = [];
+
+  for (var i = 0; i < destinations.length; i++) {
+    var d = destinations[i];
+    var matchName   = query === "" || d.name.toLowerCase().indexOf(query) !== -1 || d.country.toLowerCase().indexOf(query) !== -1;
+    var matchRegion = region === "" || d.region === region;
+    var matchBudget = d.price <= budget;
+    var matchDays   = d.days <= maxDays;
+    if (matchName && matchRegion && matchBudget && matchDays) results.push(d);
+  }
+
+  renderDests(results);
+
+  // reset filter tabs
+  var all = document.querySelectorAll(".filter-btn");
+  for (var k = 0; k < all.length; k++) all[k].classList.remove("active");
+  activeTag = "All";
+  document.querySelectorAll(".filter-btn")[0].classList.add("active");
+
+  var msg = document.getElementById("searchMsg");
+  msg.textContent = results.length > 0
+    ? results.length + " trip" + (results.length !== 1 ? "s" : "") + " found."
+    : "No trips found. Try different filters.";
+  msg.style.color = results.length > 0 ? "var(--green2)" : "#c0392b";
+
+  document.getElementById("destinations").scrollIntoView({ behavior: "smooth" });
+}
+
+// ── MODAL ─────────────────────────────────────────────────
+function openModal(dest) {
+  activeDest = dest;
+  document.getElementById("mImg").style.backgroundImage = "url('" + dest.img + "')";
+  document.getElementById("mRegion").textContent = dest.region + " · " + dest.country;
+  document.getElementById("mTitle").textContent = dest.name;
+  document.getElementById("mDesc").textContent = dest.desc;
+  document.getElementById("mMeta").innerHTML =
+    '<div class="meta-item"><p class="meta-label">Price</p><p class="meta-val">$' + dest.price.toLocaleString() + '</p></div>' +
+    '<div class="meta-item"><p class="meta-label">Duration</p><p class="meta-val">' + dest.days + ' days</p></div>' +
+    '<div class="meta-item"><p class="meta-label">Best Season</p><p class="meta-val">' + dest.season + '</p></div>' +
+    '<div class="meta-item"><p class="meta-label">Rating</p><p class="meta-val">★ ' + dest.rating + '</p></div>';
+  document.getElementById("overlay").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeModal() {
+  document.getElementById("overlay").classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+function handleOverlay(e) {
+  if (e.target === document.getElementById("overlay")) closeModal();
+}
+
+function bookNow() {
+  showToast("🎉 Booking started for " + activeDest.name + "! We'll contact you within 24hrs.");
+  closeModal();
+}
+
+// ── WISHLIST ──────────────────────────────────────────────
+function addToWish(dest) {
+  if (!dest) return;
+  var found = false;
+  for (var i = 0; i < wishlist.length; i++) {
+    if (wishlist[i].id === dest.id) { found = true; break; }
+  }
+  if (found) {
+    showToast(dest.name + " is already in your wishlist.");
+    return;
+  }
+  wishlist.push({ id: dest.id, name: dest.name, price: dest.price });
+  renderWish();
+  showToast("✓ " + dest.name + " added to wishlist!");
+  if (document.getElementById("overlay").classList.contains("open")) closeModal();
+}
+
+function removeWish(id) {
+  var next = [];
+  for (var i = 0; i < wishlist.length; i++) {
+    if (wishlist[i].id !== id) next.push(wishlist[i]);
+  }
+  wishlist = next;
+  renderWish();
+}
+
+function sortWish() {
+  wishlist.sort(function(a, b) { return a.price - b.price; });
+  renderWish();
+  showToast("Sorted by price ↑");
+}
+
+function clearWish() {
+  wishlist = [];
+  renderWish();
+  showToast("Wishlist cleared.");
+}
+
+function renderWish() {
+  var list = document.getElementById("wishList");
+  var totalEl = document.getElementById("wishTotal");
+  list.innerHTML = "";
+
+  if (wishlist.length === 0) {
+    list.innerHTML = '<p class="wish-empty">Your wishlist is empty. Click any destination and tap "+ Wishlist".</p>';
+    totalEl.textContent = "";
+    return;
+  }
+
+  var total = 0;
+  for (var i = 0; i < wishlist.length; i++) {
+    total += wishlist[i].price;
+    var item = document.createElement("div");
+    item.className = "wish-item";
+    item.innerHTML =
+      '<div><p class="wish-name">' + wishlist[i].name + '</p><p class="wish-price">$' + wishlist[i].price.toLocaleString() + '</p></div>' +
+      '<button class="wish-del" onclick="removeWish(' + wishlist[i].id + ')">✕</button>';
+    list.appendChild(item);
+  }
+
+  totalEl.textContent = wishlist.length + " destination" + (wishlist.length !== 1 ? "s" : "") + " saved · Combined value: $" + total.toLocaleString();
+}
+renderWish();
+
+// ── NEWSLETTER ────────────────────────────────────────────
+function submitNewsletter(e) {
+  e.preventDefault();
+  var btn = e.target.querySelector("button");
+  btn.textContent = "✓ Subscribed!";
+  btn.style.background = "#2d5a45";
+  setTimeout(function() { btn.textContent = "Subscribe"; btn.style.background = ""; }, 3000);
+  showToast("Welcome aboard! Check your inbox for your first travel guide.");
+}
+
+// ── TOAST ─────────────────────────────────────────────────
+function showToast(msg) {
+  var t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(function() { t.classList.remove("show"); }, 3000);
+}
+</script>
+</body>
+</html>
