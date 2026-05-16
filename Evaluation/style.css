@@ -153,7 +153,7 @@ body {
   to   { transform: scale(1.07); }
 }
 
-.hero-content { position: relative; z-index: 2; max-width: 680px; }
+.hero-content { position: relative; z-index: 2; max-width: 680px; width: 100%; }
 .hero-badge {
   display: inline-block;
   background: var(--glass);
@@ -171,6 +171,8 @@ body {
   font-size: clamp(2.8rem, 5vw, 4.4rem);
   font-weight: 800;
   line-height: 1.1;
+  word-break: break-word;
+  overflow-wrap: break-word;
   color: var(--white);
   margin-bottom: 22px;
   animation: fadeUp 0.7s ease 0.1s both;
@@ -874,10 +876,33 @@ backdrop-filter: blur(15px); }
   .hstat { padding: 0 16px; }
   .search-bar-section { padding: 36px 24px; }
   .section { padding: 60px 24px; }
-  .dest-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
-  .dest-card.big { grid-column: span 2; }
+  /* Destinations: 2 columns, explicit row heights so cards don't collapse */
+  .dest-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 220px 200px 200px 200px;
+    gap: 12px;
+  }
+  .dest-card.big {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+  .dest-info h3 { font-size: 1.05rem; }
+  .dest-price   { font-size: 0.75rem; }
   .gallery-section .section-head { padding: 0 24px; }
   .gallery-strip { padding: 0 24px; }
   .why-section, footer { padding: 60px 24px; }
-  .form-row { flex-direction: column;} 
+  .form-row { flex-direction: column; }
+}
+
+/* --- Small phones (max 480px): single column destinations --- */
+@media (max-width: 480px) {
+  .dest-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(8, 200px);
+    gap: 12px;
+  }
+  .dest-card.big {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
 }
