@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tripverse – Travel the World</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <!-- CURSOR GLOW -->
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="logo">
+      <span class="logo-icon">✈</span>
+      <span>Tripverse</span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#destinations">Destinations</a></li>
+      <li><a href="#packages">Packages</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="nav-cta" onclick="scrollToSection('packages')">Book a Trip</button>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home" >
+    <div class="hero-bg">
+      <img src="./backgroundImg.png" alt="Travel Background" class="hero-bg-img"/>
+      <div class="hero-bg-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">🌏 100+ Destinations Worldwide</div>
+      <h1 class="hero-title">
+        Travel Beyond<br/>
+        <span class="gradient-text">Your Imagination</span>
+      </h1>
+      <p class="hero-sub">Discover breathtaking destinations, curated journeys, and moments that last a lifetime. Your dream trip starts here.</p>
+      <div class="hero-actions">
+        <button class="btn-glow" onclick="scrollToSection('destinations')">Explore Now</button>
+        <button class="btn-ghost" onclick="scrollToSection('packages')">
+          <span class="play-icon">▶</span> View Packages
+        </button>
+      </div>
+    </div>
+    <div class="hero-cards-float">
+      <div class="float-card fc1">
+        <span class="fc-icon">🏝️</span>
+        <div>
+          <p class="fc-name">Maldives</p>
+          <p class="fc-detail">Starting ₹45,000</p>
+        </div>
+      </div>
+      <div class="float-card fc2">
+        <span class="fc-icon">🗼</span>
+        <div>
+          <p class="fc-name">Paris</p>
+          <p class="fc-detail">Starting ₹60,000</p>
+        </div>
+      </div>
+      <div class="float-card fc3">
+        <span>⭐ 4.9</span>
+        <span>2000+ Reviews</span>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><span class="hstat-num" data-count="50">0</span><span>+</span><p>Countries</p></div>
+      <div class="hstat-divider"></div>
+      <div class="hstat"><span class="hstat-num" data-count="1200">0</span><span>+</span><p>Travelers</p></div>
+      <div class="hstat-divider"></div>
+      <div class="hstat"><span class="hstat-num" data-count="300">0</span><span>+</span><p>Packages</p></div>
+      <div class="hstat-divider"></div>
+      <div class="hstat"><span class="hstat-num" data-count="10">0</span><span>yrs</span><p>Experience</p></div>
+    </div>
+    <div class="scroll-hint">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- SEARCH -->
+  <section class="search-bar-section">
+    <div class="search-container">
+      <div class="search-pill">
+        <input type="text" id="searchInput" placeholder="Where do you want to go?" onkeyup="filterDestinations()"/>
+        <button class="search-btn" onclick="filterDestinations()">
+          🔍 Search
+        </button>
+      </div>
+      <div class="quick-tags">
+        <span onclick="quickSearch('Beach')">🏖 Beach</span>
+        <span onclick="quickSearch('Adventure')">🧗 Adventure</span>
+        <span onclick="quickSearch('Culture')">🏛 Culture</span>
+        <span onclick="quickSearch('Luxury')">💎 Luxury</span>
+        <span onclick="quickSearch('Mountains')">⛰ Mountains</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- DESTINATIONS -->
+  <section class="section" id="destinations">
+    <div class="section-head">
+      <span class="section-label">✦ Top Picks</span>
+      <h2>Popular Destinations</h2>
+      <p>Hand-picked locations loved by our travelers worldwide</p>
+    </div>
+    <div class="dest-grid" id="destGrid">
+
+      <div class="dest-card big" data-tags="Luxury Beach" onclick="openModal('Maldives')">
+        <div class="dest-bg maldives-bg"></div>
+        <div class="dest-overlay"></div>
+        <div class="dest-info">
+          <div class="dest-tags"><span>Luxury</span><span>Beach</span></div>
+          <h3>Maldives</h3>
+          <p class="dest-price">from ₹45,000</p>
+          <span class="dest-arrow">→</span>
+        </div>
+      </div>
+
+      <div class="dest-card" data-tags="Romance Culture" onclick="openModal('Paris')">
+        <div class="dest-bg paris-bg"></div>
+        <div class="dest-overlay"></div>
+        <div class="dest-info">
+          <div class="dest-tags"><span>Romance</span></div>
+          <h3>Paris</h3>
+          <p class="dest-price">from ₹60,000</p>
+          <span class="dest-arrow">→</span>
+        </div>
+      </div>
+
+      <div class="dest-card" data-tags="Culture Food" onclick="openModal('Tokyo')">
+        <div class="dest-bg japan-bg"></div>
+        <div class="dest-overlay"></div>
+        <div class="dest-info">
+          <div class="dest-tags"><span>Culture</span></div>
+          <h3>Tokyo</h3>
+          <p class="dest-price">from ₹55,000</p>
+          <span class="dest-arrow">→</span>
+        </div>
+      </div>
+
+      <div class="dest-card" data-tags="Adventure Mountains Nature" onclick="openModal('Switzerland')">
+        <div class="dest-bg swiss-bg"></div>
+        <div class="dest-overlay"></div>
+        <div class="dest-info">
+          <div class="dest-tags"><span>Adventure</span></div>
+          <h3>Switzerland</h3>
+          <p class="dest-price">from ₹75,000</p>
+          <span class="dest-arrow">→</span>
+        </div>
+      </div>
+
+      <div class="dest-card" data-tags="Heritage Culture" onclick="openModal('Kashmir')">
+        <div class="dest-bg kashmir-bg"></div>
+        <div class="dest-overlay"></div>
+        <div class="dest-info">
+          <div class="dest-tags"><span>Nature</span></div>
+          <h3>Kashmir</h3>
+          <p class="dest-price">from ₹15,000</p>
+          <span class="dest-arrow">→</span>
+        </div>
+      </div>
+
+      <div class="dest-card" data-tags="City Shopping" onclick="openModal('New York')">
+        <div class="dest-bg ny-bg"></div>
+        <div class="dest-overlay"></div>
+        <div class="dest-info">
+          <div class="dest-tags"><span>City</span></div>
+          <h3>New York</h3>
+          <p class="dest-price">from ₹80,000</p>
+          <span class="dest-arrow">→</span>
+        </div>
+      </div>
+
+      <div class="dest-card" data-tags="Beach Nature" onclick="openModal('Bali')">
+        <div class="dest-bg bali-bg"></div>
+        <div class="dest-overlay"></div>
+        <div class="dest-info">
+          <div class="dest-tags"><span>Beach</span></div>
+          <h3>Bali</h3>
+          <p class="dest-price">from ₹30,000</p>
+          <span class="dest-arrow">→</span>
+        </div>
+      </div>
+
+      <div class="dest-card" data-tags="Adventure Luxury" onclick="openModal('Dubai')">
+        <div class="dest-bg dubai-bg"></div>
+        <div class="dest-overlay"></div>
+        <div class="dest-info">
+          <div class="dest-tags"><span>Luxury</span></div>
+          <h3>Dubai</h3>
+          <p class="dest-price">from ₹50,000</p>
+          <span class="dest-arrow">→</span>
+        </div>
+      </div>
+
+    </div>
+    <p id="noResult" class="no-result" style="display:none">😕 No destinations found. Try: Maldives, Paris, Tokyo…</p>
+  </section>
+
+  <!-- PACKAGES -->
+  <section class="section packages-section" id="packages">
+    <div class="section-head">
+      <span class="section-label">✦ Tour Plans</span>
+      <h2>Choose Your Package</h2>
+      <p>Flexible plans for every traveler and every budget</p>
+    </div>
+    <div class="pkg-grid">
+
+      <div class="pkg-card">
+        <div class="pkg-top starter">
+          <div class="pkg-icon">🌱</div>
+          <h3>Starter</h3>
+          <div class="pkg-price">₹15,000<span>/person</span></div>
+        </div>
+        <ul class="pkg-list">
+          <li class="yes">3 Nights Hotel</li>
+          <li class="yes">Breakfast Included</li>
+          <li class="yes">Airport Pickup</li>
+          <li class="yes">City Tour Guide</li>
+          <li class="no">Flight Tickets</li>
+          <li class="no">Travel Insurance</li>
+        </ul>
+        <button class="pkg-btn" onclick="selectPackage('Starter', 15000)">Get Started</button>
+      </div>
+
+      <div class="pkg-card featured">
+        <div class="pkg-badge">⭐ Most Popular</div>
+        <div class="pkg-top explorer">
+          <div class="pkg-icon">🌍</div>
+          <h3>Explorer</h3>
+          <div class="pkg-price">₹30,000<span>/person</span></div>
+        </div>
+        <ul class="pkg-list">
+          <li class="yes">6 Nights Hotel</li>
+          <li class="yes">All Meals Included</li>
+          <li class="yes">Airport Pickup & Drop</li>
+          <li class="yes">Private Tour Guide</li>
+          <li class="yes">Flight Tickets</li>
+          <li class="no">Travel Insurance</li>
+        </ul>
+        <button class="pkg-btn featured-btn" onclick="selectPackage('Explorer', 30000)">Book Now</button>
+      </div>
+
+      <div class="pkg-card">
+        <div class="pkg-top premium">
+          <div class="pkg-icon">👑</div>
+          <h3>Premium</h3>
+          <div class="pkg-price">₹55,000<span>/person</span></div>
+        </div>
+        <ul class="pkg-list">
+          <li class="yes">10 Nights Hotel</li>
+          <li class="yes">All Meals + Drinks</li>
+          <li class="yes">Luxury Transfers</li>
+          <li class="yes">Personal Concierge</li>
+          <li class="yes">Flight Tickets</li>
+          <li class="yes">Travel Insurance</li>
+        </ul>
+        <button class="pkg-btn" onclick="selectPackage('Premium', 55000)">Go Premium</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- GALLERY / GALLERY STRIP -->
+  <section class="gallery-section" id="gallery">
+    <div class="section-head">
+      <span class="section-label">✦ Visual Journey</span>
+      <h2>Moments Worth Traveling For</h2>
+    </div>
+    <div class="gallery-strip">
+      <div class="gallery-item g1"><span class="gal-caption">Santorini, Greece</span></div>
+      <div class="gallery-item g2"><span class="gal-caption">Amazon Rainforest</span></div>
+      <div class="gallery-item g3"><span class="gal-caption">Sahara Desert</span></div>
+      <div class="gallery-item g4"><span class="gal-caption">Norwegian Fjords</span></div>
+      <div class="gallery-item g5"><span class="gal-caption">Tokyo Night</span></div>
+    </div>
+  </section>
+
+  <!-- WHY US -->
+  <section class="why-section">
+    <div class="section-head">
+      <span class="section-label">✦ Why Tripverse</span>
+      <h2>Travel Smarter with Us</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card"><div class="why-icon">🛡️</div><h4>100% Safe Travel</h4><p>All our trips are fully insured with 24/7 on-trip emergency support.</p></div>
+      <div class="why-card"><div class="why-icon">💸</div><h4>Best Price Guarantee</h4><p>We match any price – and offer EMI-free payment plans for all packages.</p></div>
+      <div class="why-card"><div class="why-icon">🤝</div><h4>Expert Local Guides</h4><p>Native guides who know every hidden gem, shortcut, and secret spot.</p></div>
+      <div class="why-card"><div class="why-icon">♻️</div><h4>Eco-Friendly Travel</h4><p>We offset carbon for every trip. Travel guilt-free and sustainably.</p></div>
+      <div class="why-card"><div class="why-icon">🚖</div><h4>Comfortable Transportation</h4><p>Travel comfortably with premium transport and airport pickup services.</p></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section contact-section" id="contact">
+    <div class="section-head">
+      <span class="section-label">✦ Let's Talk</span>
+      <h2>Plan Your Trip Today</h2>
+      <p>Fill the form and our travel experts will reach out within 24 hours</p>
+    </div>
+    <div class="contact-wrapper">
+      <div class="contact-left">
+        <div class="contact-card">
+          <div class="cc-icon">📍</div>
+          <div><h4>Our Office</h4><p>Chandigarh, India</p></div>
+        </div>
+        <div class="contact-card">
+          <div class="cc-icon">📞</div>
+          <div><h4>Call Us</h4><p>+91 78142 43256</p></div>
+        </div>
+        <div class="contact-card">
+          <div class="cc-icon">📧</div>
+          <div><h4>Email</h4><p>hello@tripverse.com</p></div>
+        </div>
+        <div class="contact-card">
+          <div class="cc-icon">🕐</div>
+          <div><h4>Hours</h4><p>Mon–Sat: 9 AM – 6 PM</p></div>
+        </div>
+      </div>
+      <form class="contact-form" onsubmit="submitForm(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="fname" placeholder="e.g. Prabhjot Singh" required/>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="femail" placeholder="you@email.com" required/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Phone (Optional)</label>
+          <input type="tel" id="fphone" placeholder="+91 9XXXXXXXX0"/>
+        </div>
+        <div class="form-group">
+          <label>Dream Destination</label>
+          <select id="fdest">
+            <option value="">Pick a destination…</option>
+            <option>Maldives</option>
+            <option>Paris</option>
+            <option>Tokyo</option>
+            <option>Switzerland</option>
+            <option>Bali</option>
+            <option>Dubai</option>
+            <option>New York</option>
+            <option>Rajasthan</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea id="fmsg" rows="4" placeholder="Tell us about your travel plans, budget, or any questions…" required></textarea>
+        </div>
+        <button type="submit" class="form-submit">Send Message 🚀</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">✈ Tripverse</div>
+      <p>Crafting unforgettable journeys since 2015</p>
+      <div class="footer-links">
+        <a href="#home">Home</a>
+        <a href="#destinations">Destinations</a>
+        <a href="#packages">Packages</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <p class="footer-copy">© 2025 Tripverse. Made with ❤️ for explorers.</p>
+    </div>
+  </footer>
+
+  <!-- DESTINATION MODAL -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="modal-header" id="modalHeader"></div>
+      <div class="modal-body" id="modalBody"></div>
+      <button class="modal-book-btn" id="modalBookBtn">Book This Trip →</button>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
